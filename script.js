@@ -12,12 +12,27 @@ fetch("https://fake-api-vq1l.onrender.com/posts",{
     const lista = document.getElementById("lista")
     
     res.forEach(element => {
-        console.log(element)
-        const hijo= document.createElement("li")
-        hijo.innerHTML=element.images
-        const imagen=document.createElement("img")
-        imagen.src=JSON.parse(element.images)[0]
-        lista.appendChild(imagen)
+        // Crear un elemento <li> para el título
+        const item = document.createElement("li")
+        item.textContent = `Título: ${element.title}` // Asignar el título
+        lista.appendChild(item)
+
+        // Crear un elemento <p> para la descripción
+        const descripcion = document.createElement("p")
+        descripcion.textContent = `Descripción: ${element.description}` // Asignar la descripción
+        lista.appendChild(descripcion)
+
+        // Crear un elemento <p> para el valor
+        const valor = document.createElement("p")
+        valor.textContent = `Valor: ${element.value}` // Asignar el valor
+        lista.appendChild(valor)
+
+        // Crear y mostrar la(s) imagen(es)
+        const imagenes = JSON.parse(element.images)
+        imagenes.forEach(imgSrc => {
+            const imagen = document.createElement("img")
+            imagen.src = imgSrc
+            lista.appendChild(imagen)})
     });
     
 })
