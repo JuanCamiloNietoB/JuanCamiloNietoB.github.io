@@ -67,7 +67,7 @@ fetch("https://fake-api-vq1l.onrender.com/posts", {
                     <p class="card-text">${element.description}</p>
                     <p class="card-text"><strong>Valor:</strong> ${element.value}</p>
                     <button class="btn btn-warning btn-edit">Editar</button>
-                    <button class="btn btn-danger btn-delete">Eliminar</button>
+                    <a onclick="deletePost(${element.id})" class="btn btn-danger">Eliminar</a>
                 </div>
             </div>
         `
@@ -75,21 +75,56 @@ fetch("https://fake-api-vq1l.onrender.com/posts", {
         // Añadir la tarjeta al contenedor
         cardContainer.appendChild(card)
         
-        // Añadir evento al botón de eliminar
-        const deleteButton = card.querySelector('.btn-delete')
-        deleteButton.addEventListener('click', () => {
-            card.remove() // Elimina la tarjeta del DOM
-            alert(`Se eliminó la tarjeta con el título: ${element.title}`)
-        })
-
-        // Añadir evento al botón de editar (ejemplo básico)
-        const editButton = card.querySelector('.btn-edit')
-        editButton.addEventListener('click', () => {
-            const newTitle = prompt('Editar título:', element.title)
-            if (newTitle) {
-                element.title = newTitle // Actualiza el valor en el objeto (esto solo es en el frontend)
-                card.querySelector('.card-title').textContent = newTitle // Actualiza el título en la tarjeta
-            }
-        })
+        
+        
     })
 })
+
+
+function sendForm(){
+  const title = document.getElementById("title");
+  const description = document.getElementById("description");
+  const value = document.getElementById("value");
+  const image = document.getElementById("image");
+  const body ={
+    title: title.value,
+    description: description.value,
+    value: value.value,
+    images: [image.value] 
+  }
+
+
+  fetch("https://fake-api-vq1l.onrender.com/posts", {
+    method: "POST", 
+    headers: {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE5LCJlbWFpbCI6Imp1YW5jYW1pbG8ubmlldG9AdXRwLmVkdS5jbyIsImlhdCI6MTcyNTY3Mzg2MywiZXhwIjoxNzQyOTUzODYzfQ.3u6m6ab9h55hrm5720C1lEX6QgupHuJQZXcsYMEaOGY",
+      "Content-type": "application/json"
+    },
+    body: JSON.stringify(body)
+  })
+  .then( res => res.json())
+  .then( res => {
+    console.log(
+      "respuesta de la api", res
+    )
+    title.value = "";
+    description.value = "";
+    value.value = "";
+    image.value = "";
+    location.reload();
+  })
+
+}
+
+function deletePost(id){
+  fetch(`https://fake-api-vq1l.onrender.com/posts/${id}`, {
+    method: "DELETE", 
+    headers: {
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE5LCJlbWFpbCI6Imp1YW5jYW1pbG8ubmlldG9AdXRwLmVkdS5jbyIsImlhdCI6MTcyNTY3Mzg2MywiZXhwIjoxNzQyOTUzODYzfQ.3u6m6ab9h55hrm5720C1lEX6QgupHuJQZXcsYMEaOGY"
+    },
+  })
+  .then( res => res.json())
+  .then( res => {
+    location.reload();
+  })
+}
