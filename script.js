@@ -146,7 +146,7 @@ function sendForm() {
         images: [image.value]
     };
 
-    // Si estamos en modo edición, se realiza un PUT
+    // Si estamos en modo edición, se realiza un PATCH
     if (isEditing) {
         fetch(`https://fake-api-vq1l.onrender.com/posts/${editingId}`, {
             method: "PATCH",
