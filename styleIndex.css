@@ -11,3 +11,11 @@ a[href^='mailto']::before {
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
 }  
+a img {
+  border-radius: 8px; /* Redondear las esquinas */
+  transition: transform 0.2s ease; /* Añadir animación */
+}
+
+a img:hover {
+  transform: scale(1.05); /* Efecto de agrandamiento en hover */
+}
