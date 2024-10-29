@@ -10,7 +10,7 @@ fetch('/config')
     // Llama a la función que carga los posts después de establecer LINK
     loadPosts();
   })
-  .catch((error) => console.error("Error al obtener la configuración:", error));
+  
 
  
 
