@@ -82,7 +82,7 @@ function deletePost(id) {
 
 
 // Función para iniciar la edición de un post
-function editPost(id, title, description, value, image) {
+function editPost(id, title, description, value, images) {
     isEditing = true;
     editingId = id;
 
@@ -93,7 +93,7 @@ function editPost(id, title, description, value, image) {
     document.getElementById("title").value = title;
     document.getElementById("description").value = description;
     document.getElementById("value").value = value;
-    document.getElementById("image").value = image;
+    document.getElementById("images").value = images;
 }
 
 // Función para resetear el formulario y volver al estado "Crear"
