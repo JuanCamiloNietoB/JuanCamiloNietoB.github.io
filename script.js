@@ -148,7 +148,7 @@ fetch(`${LINK}`, {
 
         // Añadir el evento de edición al botón "Editar"
         card.querySelector(".btn-edit").addEventListener("click", () => {
-            editPost(element.id, element.title, element.description, element.value, element.images);
+            editPost(element.id, element.title, element.description, element.value, element.images[0]);
         });
 
         // Añadir la tarjeta al contenedor
