@@ -1,6 +1,4 @@
 const {LINK} = process.env;
-const link = LINK
-
 let isEditing = false; // Variable global para controlar si estamos en modo edición
 let editingId = null; // Variable para almacenar el id del post que estamos editando
 
@@ -19,6 +17,7 @@ function sendForm() {
 
 
     // Si estamos en modo edición, se realiza un PATCH
+    //https://backend-api-mcp3.onrender.com/users
     if (isEditing) {
         fetch(`${LINK}/${editingId}`, {
             method: "PATCH",
@@ -36,7 +35,8 @@ function sendForm() {
 
 
         // Si no estamos editando, se realiza un POST
-        fetch("https://backend-api-mcp3.onrender.com/users", {
+        //https://backend-api-mcp3.onrender.com/users
+        fetch(`${LINK}`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
@@ -53,8 +53,10 @@ function sendForm() {
 
 
 // Función para eliminar un post
+//https://backend-api-mcp3.onrender.com/users
+
 function deletePost(id) {
-    fetch(`https://backend-api-mcp3.onrender.com/users${id}`, {
+    fetch(`${LINK}/${id}`, {
         method: "DELETE",
         headers: {
             },
@@ -100,7 +102,8 @@ function resetForm() {
 }
 
 
-// Código para cargar los posts y agregar eventos de editar https://backend-api-mcp3.onrender.com/users
+// Código para cargar los posts y agregar eventos de editar 
+//https://backend-api-mcp3.onrender.com/users
 fetch(`${LINK}`, {
     method: "GET",
     headers: {
