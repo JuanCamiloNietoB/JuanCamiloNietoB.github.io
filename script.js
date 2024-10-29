@@ -116,6 +116,7 @@ function resetForm() {
 
 // Código para cargar los posts y agregar eventos de editar 
 //https://backend-api-mcp3.onrender.com/users
+function loadPosts() {
 fetch(`${LINK}`, {
     method: "GET",
     headers: {
@@ -153,4 +154,4 @@ fetch(`${LINK}`, {
         // Añadir la tarjeta al contenedor
         cardContainer.appendChild(card);
     });
-});
+});}
