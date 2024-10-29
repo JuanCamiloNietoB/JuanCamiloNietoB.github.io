@@ -247,10 +247,10 @@ fetch("http://localhost:3000/users", {
         // Crear la tarjeta usando la estructura de Bootstrap
         const card = document.createElement("div");
         card.classList.add("col-sm-3", "mb-4"); // Asignar clase de col de Bootstrap
-
+        //{JSON.parse(element.images)[0]}
         card.innerHTML = `
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="${JSON.parse(element.images)[0]}" alt="Imagen de la tarjeta">
+                <img class="card-img-top" src="${element.images}" alt="Imagen de la tarjeta">
                 <div class="card-body">
                     <h5 class="card-title">${element.title}</h5>
                     <p class="card-text">${element.description}</p>
