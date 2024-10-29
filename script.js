@@ -1,8 +1,8 @@
-let LINK;
+//let LINK;
 let isEditing = false; // Variable global para controlar si estamos en modo edición
 let editingId = null; //Variable para almacenar el id del post que estamos editando
 
-// Cargar el LINK desde el backend
+/* Cargar el LINK desde el backend
 fetch('/config')
   .then((response) => response.json())
   .then((config) => {
@@ -10,9 +10,9 @@ fetch('/config')
     // Llama a la función que carga los posts después de establecer LINK
     loadPosts();
   })
-  
+  */
 
- 
+const LINK = "https://backend-api-mcp3.onrender.com/users";
 
 // Función para enviar el formulario
 function sendForm() {
@@ -116,7 +116,7 @@ function resetForm() {
 
 // Código para cargar los posts y agregar eventos de editar 
 //https://backend-api-mcp3.onrender.com/users
-function loadPosts() {
+//function loadPosts() {
 fetch(`${LINK}`, {
     method: "GET",
     headers: {
@@ -154,4 +154,4 @@ fetch(`${LINK}`, {
         // Añadir la tarjeta al contenedor
         cardContainer.appendChild(card);
     });
-});}
+});  //}
