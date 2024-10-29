@@ -1,6 +1,18 @@
-const {LINK} = process.env;
+let LINK;
 let isEditing = false; // Variable global para controlar si estamos en modo edición
-let editingId = null; // Variable para almacenar el id del post que estamos editando
+let editingId = null; //Variable para almacenar el id del post que estamos editando
+
+// Cargar el LINK desde el backend
+fetch('/config')
+  .then((response) => response.json())
+  .then((config) => {
+    LINK = config.link;
+    // Llama a la función que carga los posts después de establecer LINK
+    loadPosts();
+  })
+  .catch((error) => console.error("Error al obtener la configuración:", error));
+
+ 
 
 // Función para enviar el formulario
 function sendForm() {
