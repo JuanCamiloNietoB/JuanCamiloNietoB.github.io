@@ -1,0 +1,6 @@
+.env
+node_modules/
+.idx/
+.vscode/
+conts
+borrador.js
