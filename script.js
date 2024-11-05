@@ -24,7 +24,7 @@ function sendForm() {
         title: title.value,
         description: description.value,
         value: value.value,
-        images: [image.value]
+        images: JSON.stringify([image.value])//[image.value]
     };
 
 
