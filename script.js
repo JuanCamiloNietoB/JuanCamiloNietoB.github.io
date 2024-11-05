@@ -19,12 +19,12 @@ function sendForm() {
     const title = document.getElementById("title");
     const description = document.getElementById("description");
     const value = document.getElementById("value");
-    const image = document.getElementById("image");
+    const images = document.getElementById("images");
     const body = {
         title: title.value,
         description: description.value,
         value: value.value,
-        images: [image.value]
+        images: images.value
     };
 
 
@@ -108,7 +108,7 @@ function resetForm() {
     document.getElementById("title").value = "";
     document.getElementById("description").value = "";
     document.getElementById("value").value = "";
-    document.getElementById("image").value = "";
+    document.getElementById("images").value = "";
 
     location.reload();
 }
