@@ -57,6 +57,25 @@ const LINK = "https://backend-api-mcp3.onrender.com/users";
         });
     }
 
+    // Función para resetear el formulario y volver al estado "Crear"
+    function resetForm() {
+        isEditing = false;
+        editingId = null;
+
+        // Cambiar el texto del encabezado a "Crear"
+        const formHeading = document.getElementById("form-heading");
+        if (formHeading) {
+            formHeading.textContent = "Crear";
+        }
+
+        // Limpiar los campos del formulario
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("value").value = "";
+        document.getElementById("images").value = "";
+
+        location.reload();
+    }
 document.addEventListener("DOMContentLoaded", function () {
     
 
@@ -89,25 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Función para resetear el formulario y volver al estado "Crear"
-    function resetForm() {
-        isEditing = false;
-        editingId = null;
-
-        // Cambiar el texto del encabezado a "Crear"
-        const formHeading = document.getElementById("form-heading");
-        if (formHeading) {
-            formHeading.textContent = "Crear";
-        }
-
-        // Limpiar los campos del formulario
-        document.getElementById("title").value = "";
-        document.getElementById("description").value = "";
-        document.getElementById("value").value = "";
-        document.getElementById("images").value = "";
-
-        location.reload();
-    }
+    
 
     // Cargar los posts y agregar eventos de editar 
     fetch(`${LINK}`, {
