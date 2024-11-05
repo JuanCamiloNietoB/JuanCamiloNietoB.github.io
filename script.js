@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const LINK = "https://backend-api-mcp3.onrender.com/users";
+const LINK = "https://backend-api-mcp3.onrender.com/users";
     let isEditing = false; // Variable global para controlar si estamos en modo edición
     let editingId = null; // Variable para almacenar el id del post que estamos editando
 
@@ -57,6 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
             location.reload();
         });
     }
+
+document.addEventListener("DOMContentLoaded", function () {
+    
 
     // Función para iniciar la edición de un post
     function editPost(id, title, description, value, images) {
