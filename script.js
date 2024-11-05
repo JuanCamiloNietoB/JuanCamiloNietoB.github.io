@@ -148,7 +148,7 @@ fetch(`https://backend-api-mcp3.onrender.com/users`, {
 
         // Añadir el evento de edición al botón "Editar"
         card.querySelector(".btn-edit").addEventListener("click", () => {
-            editPost(element.id, element.title, element.description, element.value, element.images[0]);
+            editPost(element.id, element.title, element.description, element.value, element.images);
         });
 
         // Añadir la tarjeta al contenedor
