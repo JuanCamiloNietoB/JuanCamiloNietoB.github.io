@@ -117,7 +117,7 @@ function resetForm() {
 // Código para cargar los posts y agregar eventos de editar 
 //https://backend-api-mcp3.onrender.com/users
 //function loadPosts() {
-fetch(`${LINK}`, {
+fetch(`https://backend-api-mcp3.onrender.com/users`, {
     method: "GET",
     headers: {
         }
