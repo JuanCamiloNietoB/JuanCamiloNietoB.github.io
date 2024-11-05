@@ -2,6 +2,27 @@ const LINK = "https://backend-api-mcp3.onrender.com/users";
     let isEditing = false; // Variable global para controlar si estamos en modo edición
     let editingId = null; // Variable para almacenar el id del post que estamos editando
 
+
+    // Función para resetear el formulario y volver al estado "Crear"
+    function resetForm() {
+        isEditing = false;
+        editingId = null;
+
+        // Cambiar el texto del encabezado a "Crear"
+        const formHeading = document.getElementById("form-heading");
+        if (formHeading) {
+            formHeading.textContent = "Crear";
+        }
+
+        // Limpiar los campos del formulario
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("value").value = "";
+        document.getElementById("images").value = "";
+
+        location.reload();
+    }
+
     // Función para enviar el formulario
     function sendForm() {
         const title = document.getElementById("title");
@@ -40,6 +61,7 @@ const LINK = "https://backend-api-mcp3.onrender.com/users";
             .then(res => {
                 console.log("Post creado", res);
                 resetForm(); // Limpiar el formulario y mantener el estado "Crear"
+                location.reload();
             });
         }
     }
@@ -57,25 +79,7 @@ const LINK = "https://backend-api-mcp3.onrender.com/users";
         });
     }
 
-    // Función para resetear el formulario y volver al estado "Crear"
-    function resetForm() {
-        isEditing = false;
-        editingId = null;
-
-        // Cambiar el texto del encabezado a "Crear"
-        const formHeading = document.getElementById("form-heading");
-        if (formHeading) {
-            formHeading.textContent = "Crear";
-        }
-
-        // Limpiar los campos del formulario
-        document.getElementById("title").value = "";
-        document.getElementById("description").value = "";
-        document.getElementById("value").value = "";
-        document.getElementById("images").value = "";
-
-        location.reload();
-    }
+    
 document.addEventListener("DOMContentLoaded", function () {
     
 
