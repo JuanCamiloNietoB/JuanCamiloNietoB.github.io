@@ -1,5 +1,4 @@
 const LINK = "https://backend-api-mcp3.onrender.com/users";
-document.addEventListener("DOMContentLoaded", function () {
 let cards = []; // Arreglo global para almacenar las cartas
 
 // Obtener cartas desde el backend
@@ -13,6 +12,8 @@ fetch(`${LINK}`, {
         renderCards(res); // Renderizamos las cartas en la interfaz
     })
     .catch(err => console.error("Error al obtener las cartas:", err));
+
+document.addEventListener("DOMContentLoaded", function () {
 
 // Función para seleccionar y mostrar dos cartas
 function selectRandomCards() {
