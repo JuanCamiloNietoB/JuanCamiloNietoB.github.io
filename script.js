@@ -81,7 +81,7 @@ const LINK = "https://backend-api-mcp3.onrender.com/users";
 
     
 document.addEventListener("DOMContentLoaded", function () {
-    
+
 
     // Función para iniciar la edición de un post
     function editPost(id, title, description, value, images) {
