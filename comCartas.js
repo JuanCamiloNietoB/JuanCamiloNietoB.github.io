@@ -9,7 +9,7 @@ fetch(`${LINK}`, {
     .then(res => res.json())
     .then(res => {
         cards = res; // Guardamos las cartas en el arreglo global
-        renderCards(res); // Renderizamos las cartas en la interfaz
+        //renderCards(res); // Renderizamos las cartas en la interfaz
     })
     .catch(err => console.error("Error al obtener las cartas:", err));
 
