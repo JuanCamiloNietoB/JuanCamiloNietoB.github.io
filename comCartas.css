@@ -1,0 +1,26 @@
+.card {
+    perspective: 1000px;
+    position: relative;
+}
+.card .card-front,
+.card .card-back {
+    position: absolute;
+    backface-visibility: hidden;
+    width: 100%;
+    height: 100%;
+}
+.card .card-back {
+    transform: rotateY(180deg);
+}
+.card.flipped .card-front {
+    transform: rotateY(180deg);
+}
+.card.flipped .card-back {
+    transform: rotateY(0);
+}
+body {
+    background-image: url('https://th.bing.com/th/id/R.abb5e2f3a89fe5f1871d9e13555a4cfb?rik=Gw6033iUygmZPQ&riu=http%3a%2f%2fcdn.marketing4ecommerce.net%2fwp-content%2fuploads%2f2017%2f01%2f02204956%2fqu%c3%a9-es-una-imagen-vectorial.jpg&ehk=HTmTsIAUN71R1e1kAp3MB6q0dm57GQVLk2TwmRfmuds%3d&risl=&pid=ImgRaw&r=0');
+    background-size: cover; /* Hace que la imagen cubra toda la página */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}  
