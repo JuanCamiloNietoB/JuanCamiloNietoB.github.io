@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function () {
 const LINK = "https://backend-api-mcp3.onrender.com/users";
 let cards = []; // Arreglo global para almacenar las cartas
 
@@ -9,6 +10,7 @@ let cards = []; // Arreglo global para almacenar las cartas
         .then(res => res.json())
         .then(res => {
             cards = res; // Guardamos las cartas en el arreglo global
+            console.log(cards); // Verificar datos recibidos
             renderCards(res); // Renderizamos las cartas en la interfaz
         })
         .catch(err => console.error("Error al obtener las cartas:", err));
@@ -91,3 +93,4 @@ let cards = []; // Arreglo global para almacenar las cartas
     // Asignar el evento al botón de comparación
     document.getElementById("compare-button").addEventListener("click", selectRandomCards);
     
+})
