@@ -13,7 +13,7 @@ let cards = []; // Arreglo global para almacenar las cartas
         })
         .catch(err => console.error("Error al obtener las cartas:", err));
 
-document.addEventListener("DOMContentLoaded", function () {
+
 
     
     
@@ -91,4 +91,3 @@ document.addEventListener("DOMContentLoaded", function () {
     // Asignar el evento al botón de comparación
     document.getElementById("compare-button").addEventListener("click", selectRandomCards);
     
-})
