@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then((res) => res.json())
             .then((res) => {
+                console.log(res);
                 const cards = res.map((item) => ({
                     id: item.id,
                     images: item.images,
