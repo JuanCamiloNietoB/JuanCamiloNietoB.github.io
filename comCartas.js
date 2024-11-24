@@ -1,96 +1,113 @@
 document.addEventListener("DOMContentLoaded", function () {
-const LINK = "https://backend-api-mcp3.onrender.com/users";
-let cards = []; // Arreglo global para almacenar las cartas
+    const LINK = "https://backend-api-mcp3.onrender.com/users";
+    const cardContainer = document.getElementById("card-container");
+    const maxAttempts = 15; // Límite de intentos
+    let attempts = 0; // Contador de intentos
+    let matchedPairs = 0; // Contador de pares encontrados
+    let firstCard = null; // Para guardar la primera tarjeta seleccionada
 
-    // Obtener cartas desde el backend
-    fetch(`${LINK}`, {
-        method: "GET",
-        headers: {}
-    })
-        .then(res => res.json())
-        .then(res => {
-            cards = res; // Guardamos las cartas en el arreglo global
-            console.log(cards); // Verificar datos recibidos
-            renderCards(res); // Renderizamos las cartas en la interfaz
-        })
-        .catch(err => console.error("Error al obtener las cartas:", err));
+    // Función para mezclar las tarjetas
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
 
-
-
-    
-    
-    // Función para renderizar las cartas en el contenedor
+    // Función para renderizar las tarjetas en el contenedor
     function renderCards(cards) {
-        const cardContainer = document.getElementById("card-container");
-        cardContainer.innerHTML = ""; // Limpiar contenedor antes de renderizar
-    
-        cards.forEach((card) => {
-            const cardElement = document.createElement("div");
-            cardElement.classList.add("col-sm-3", "mb-4");
-            cardElement.innerHTML = `
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="${card.images}" alt="${card.title}">
-                    <div class="card-body">
-                        <h5 class="card-title">${card.title}</h5>
-                        <p class="card-text">${card.description}</p>
+        cardContainer.innerHTML = ""; // Limpiar contenedor
+
+        // Duplicar y mezclar tarjetas para crear pares
+        const pairs = shuffle([...cards, ...cards]);
+
+        pairs.forEach((cardData, index) => {
+            const card = document.createElement("div");
+            card.classList.add("col-sm-3", "mb-4"); // Bootstrap styling
+            card.innerHTML = `
+                <div class="card" data-id="${cardData.id}" data-index="${index}" style="width: 18rem;">
+                    <div class="card-front"></div>
+                    <div class="card-back">
+                        <img class="card-img-top" src="${cardData.images}" alt="Tarjeta">
                     </div>
                 </div>
             `;
-            cardContainer.appendChild(cardElement);
+            cardContainer.appendChild(card);
+
+            // Añadir evento de clic para las tarjetas
+            card.addEventListener("click", () => handleCardClick(card, cardData));
         });
     }
-    
-    // Función para seleccionar y mostrar dos cartas
-    function selectRandomCards() {
-        if (cards.length < 2) {
-            alert("No hay suficientes cartas para jugar.");
-            return;
-        }
-    
-        // Seleccionar dos cartas al azar
-        const card1 = cards[Math.floor(Math.random() * cards.length)];
-        const card2 = cards[Math.floor(Math.random() * cards.length)];
-    
-        // Mostrar las cartas en la zona de comparación
-        const comparisonZone = document.getElementById("comparison-zone");
-        comparisonZone.innerHTML = `
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="${card1.images}" alt="${card1.title}">
-                <div class="card-body">
-                    <h5 class="card-title">${card1.title}</h5>
-                    <p class="card-text">${card1.description}</p>
-                    <p class="card-text"><strong>Imagen:</strong> ${card1.images}</p>
-                </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="${card2.images}" alt="${card2.title}">
-                <div class="card-body">
-                    <h5 class="card-title">${card2.title}</h5>
-                    <p class="card-text">${card2.description}</p>
-                    <p class="card-text"><strong>Imagen:</strong> ${card2.images}</p>
-                </div>
-            </div>
-        `;
-    
-        // Comparar las cartas
-        compareCards(card1, card2);
-    }
-    
-    // Comparar cartas basadas en las URLs de las imágenes
-    function compareCards(card1, card2) {
-        const result = document.getElementById("result");
-    
-        // Comparar las URLs de las imágenes
-        if (card1.images > card2.images) {
-            result.textContent = `¡${card1.title} gana! Su imagen (${card1.images}) tiene una URL "mayor" en orden alfabético.`;
-        } else if (card1.images < card2.images) {
-            result.textContent = `¡${card2.title} gana! Su imagen (${card2.images}) tiene una URL "mayor" en orden alfabético.`;
+
+    // Función para manejar clics en las tarjetas
+    function handleCardClick(card, cardData) {
+        // Si ya fue emparejada o está siendo comparada, ignorar
+        if (card.classList.contains("matched") || card === firstCard) return;
+
+        // Mostrar la tarjeta
+        card.classList.add("flipped");
+
+        if (!firstCard) {
+            // Si es la primera tarjeta seleccionada
+            firstCard = card;
         } else {
-            result.textContent = `¡Es un empate! Ambas cartas tienen la misma URL de imagen (${card1.images}).`;
+            // Segunda tarjeta seleccionada
+            attempts++;
+            const secondCard = card;
+
+            // Comparar las dos tarjetas seleccionadas
+            const isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+            if (isMatch) {
+                // Si coinciden, marcarlas como emparejadas
+                firstCard.classList.add("matched");
+                secondCard.classList.add("matched");
+                matchedPairs++;
+
+                // Revisar condición de victoria
+                if (matchedPairs === cardContainer.children.length / 2) {
+                    setTimeout(() => alert("¡Ganaste!"), 500);
+                }
+            } else {
+                // Si no coinciden, voltearlas nuevamente
+                setTimeout(() => {
+                    firstCard.classList.remove("flipped");
+                    secondCard.classList.remove("flipped");
+                }, 1000);
+            }
+
+            firstCard = null; // Reiniciar la selección
+        }
+
+        // Verificar intentos restantes
+        if (attempts >= maxAttempts) {
+            setTimeout(() => alert("Has alcanzado el límite de intentos. ¡Inténtalo de nuevo!"), 500);
+            resetGame();
         }
     }
-    
-    // Asignar el evento al botón de comparación
-    document.getElementById("compare-button").addEventListener("click", selectRandomCards);
-    
-})
+
+    // Función para reiniciar el juego
+    function resetGame() {
+        attempts = 0;
+        matchedPairs = 0;
+        firstCard = null;
+
+        fetchCards(); // Volver a cargar las cartas
+    }
+
+    // Función para obtener las cartas del backend
+    function fetchCards() {
+        fetch(`${LINK}`, {
+            method: "GET",
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                const cards = res.map((item) => ({
+                    id: item.id,
+                    images: item.images,
+                }));
+                renderCards(cards);
+            })
+            .catch((err) => console.error("Error al obtener las cartas:", err));
+    }
+
+    // Iniciar el juego
+    fetchCards();
+});
