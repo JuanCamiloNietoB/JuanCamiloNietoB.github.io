@@ -20,27 +20,28 @@ document.addEventListener("DOMContentLoaded", function () {
     // Función para renderizar las tarjetas en el contenedor
     function renderCards(cards) {
         cardContainer.innerHTML = ""; // Limpiar contenedor
-
+    
         // Duplicar y mezclar tarjetas para crear pares
         const pairs = shuffle([...cards, ...cards]);
-
+    
         pairs.forEach((cardData, index) => {
             const card = document.createElement("div");
             card.classList.add("col-sm-3", "mb-4"); // Bootstrap styling
             card.innerHTML = `
                 <div class="card memory-card" data-id="${cardData.id}" style="width: 100%; height: 200px;">
-                    <div class="card-front"></div>
+                    <div class="card-front" style="background: #f8f9fa;"></div>
                     <div class="card-back">
-                        <img src="${cardData.images}" alt="Tarjeta" style="width: 100%; height: 100%;">
+                        <img src="${cardData.images}" alt="Tarjeta" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
             `;
             cardContainer.appendChild(card);
-
+    
             // Añadir evento de clic para las tarjetas
             card.addEventListener("click", () => handleCardClick(card, cardData));
         });
     }
+    
 
     // Función para manejar clics en las tarjetas
     function handleCardClick(card, cardData) {
