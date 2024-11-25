@@ -114,6 +114,56 @@ function initializeGameLogic() {
     let lockBoard = false;
     let firstCard, secondCard;
     let matches = 0; // Contador de pares encontrados
+    let totalMoves = 20; // Límite de movimientos
+let movesRemaining = totalMoves; // Movimientos restantes
+
+function updateMoves() {
+    const movesDisplay = document.getElementById("moves-remaining");
+    movesDisplay.textContent = `Movimientos restantes: ${movesRemaining}`;
+}
+
+function flipCard() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+
+    this.classList.add("flipped");
+
+    if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+        return;
+    }
+
+    secondCard = this;
+    checkForMatch();
+
+    // Reduce los movimientos restantes
+    movesRemaining--;
+    updateMoves();
+
+    // Verifica si se han agotado los movimientos
+    if (movesRemaining === 0) {
+        stopTimer(); // Detén el temporizador si está en uso
+        setTimeout(() => {
+            alert("¡Se han agotado tus movimientos! Fin del juego.");
+            resetGame(); // Reinicia el juego (definido más adelante)
+        }, 500);
+    }
+}
+
+function resetGame() {
+    // Reinicia el estado del tablero y las variables del juego
+    movesRemaining = totalMoves;
+    updateMoves();
+
+    const cards = document.querySelectorAll(".memory-card");
+    cards.forEach(card => card.classList.remove("flipped"));
+
+    initializeGameLogic();
+}
+
+
+
 
     function checkForMatch() {
         const isMatch = firstCard.dataset.id === secondCard.dataset.id;
@@ -173,53 +223,4 @@ function startTimer() {
 function stopTimer() {
     clearInterval(timerInterval);
 }
-
-let totalMoves = 20; // Límite de movimientos
-let movesRemaining = totalMoves; // Movimientos restantes
-
-function updateMoves() {
-    const movesDisplay = document.getElementById("moves-remaining");
-    movesDisplay.textContent = `Movimientos restantes: ${movesRemaining}`;
-}
-
-function flipCard() {
-    if (lockBoard) return;
-    if (this === firstCard) return;
-
-    this.classList.add("flipped");
-
-    if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
-        return;
-    }
-
-    secondCard = this;
-    checkForMatch();
-
-    // Reduce los movimientos restantes
-    movesRemaining--;
-    updateMoves();
-
-    // Verifica si se han agotado los movimientos
-    if (movesRemaining === 0) {
-        stopTimer(); // Detén el temporizador si está en uso
-        setTimeout(() => {
-            alert("¡Se han agotado tus movimientos! Fin del juego.");
-            resetGame(); // Reinicia el juego (definido más adelante)
-        }, 500);
-    }
-}
-
-function resetGame() {
-    // Reinicia el estado del tablero y las variables del juego
-    movesRemaining = totalMoves;
-    updateMoves();
-
-    const cards = document.querySelectorAll(".memory-card");
-    cards.forEach(card => card.classList.remove("flipped"));
-
-    initializeGameLogic();
-}
-
 
