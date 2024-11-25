@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios</title>
+  <!-- Bootstrap CSS -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+    rel="stylesheet">
+</head>
+<body>
+    <a class="btn btn-light" href="proyecto1.html" role="button">ir a catalogo</a>
+  <div class="container my-4">
+    <h1 class="text-center">Gestión de Usuarios</h1>
+
+    <!-- Botón para crear un nuevo usuario -->
+    <div class="d-flex justify-content-end my-3">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">Agregar Usuario</button>
+    </div>
+
+    <!-- Tabla para listar usuarios -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Value</th>
+          <th>Images</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="userTable">
+        <!-- Filas dinámicas -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal para agregar un nuevo usuario -->
+  <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createUserModalLabel">Agregar Nuevo Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="createUserForm">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="value" class="form-label">Value</label>
+              <input type="number" class="form-control" id="value" required>
+            </div>
+            <div class="mb-3">
+              <label for="images" class="form-label">Images (URL)</label>
+              <input type="url" class="form-control" id="images">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script 
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <!-- Frontend Script -->
+  <script>
+    const API_URL = 'http://localhost:3000'; // Reemplaza con tu URL del backend
+
+    // Obtener usuarios y renderizarlos en la tabla
+    async function fetchUsers() {
+      const response = await fetch(`${API_URL}/users`, {
+        headers: { 'Authorization': 'Bearer YOUR_TOKEN_HERE' }
+      });
+      const users = await response.json();
+
+      const tableBody = document.getElementById('userTable');
+      tableBody.innerHTML = '';
+      users.forEach(user => {
+        const row = `
+          <tr>
+            <td>${user.id}</td>
+            <td>${user.title}</td>
+            <td>${user.description}</td>
+            <td>${user.value}</td>
+            <td>${user.images}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Eliminar</button>
+            </td>
+          </tr>
+        `;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    // Crear un nuevo usuario
+    async function createUser(event) {
+      event.preventDefault();
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const value = document.getElementById('value').value;
+      const images = document.getElementById('images').value;
+
+      const response = await fetch(`${API_URL}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer YOUR_TOKEN_HERE'
+        },
+        body: JSON.stringify({ title, description, value, images })
+      });
+
+      if (response.ok) {
+        alert('Usuario creado correctamente');
+        document.getElementById('createUserForm').reset();
+        fetchUsers();
+      } else {
+        alert('Error al crear el usuario');
+      }
+    }
+
+    // Eliminar un usuario
+    async function deleteUser(id) {
+      const response = await fetch(`${API_URL}/users/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer YOUR_TOKEN_HERE' }
+      });
+
+      if (response.ok) {
+        alert('Usuario eliminado correctamente');
+        fetchUsers();
+      } else {
+        alert('Error al eliminar el usuario');
+      }
+    }
+
+    // Event Listener para el formulario de creación
+    document.getElementById('createUserForm').addEventListener('submit', createUser);
+
+    // Cargar usuarios al cargar la página
+    fetchUsers();
+  </script>
+</body>
+</html>
