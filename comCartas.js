@@ -97,7 +97,7 @@ function initializeGameLogic() {
 
         if (matches === cards.length / 2) {
             stopTimer(); // Detén el temporizador cuando se encuentren todos los pares
-            alert(`¡Juego terminado! Tiempo: ${timer}s. Puntuación: ${score}`);
+            alert(`¡Juego terminado! Tiempo: ${timer}s.`);
         }
 
         resetBoard();
