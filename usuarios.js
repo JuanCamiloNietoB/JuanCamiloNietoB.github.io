@@ -16,7 +16,7 @@ async function loadUsers() {
       userTableBody.innerHTML += `
         <tr>
           <td>${user.user_id}</td>
-          <td>${user.first_name}</td> <!-- Corregido -->
+          <td>${user.firts_name}</td> <!-- Corregido -->
           <td>${user.last_name}</td>
           <td>${user.email}</td>
           <td>${new Date(user.birthday).toLocaleDateString()}</td>
@@ -35,7 +35,7 @@ async function loadUsers() {
 const addUserForm = document.getElementById('addUserForm');
 addUserForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const first_name = document.getElementById('firstName').value;  // Corregido
+  const firts_name = document.getElementById('firstName').value;  // Corregido
   const last_name = document.getElementById('lastName').value;
   const email = document.getElementById('email').value;
   const birthday = document.getElementById('birthday').value;
@@ -48,7 +48,7 @@ addUserForm.addEventListener('submit', async (e) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        first_name: first_name,  // Corregido
+        firts_name: firts_name,  // Corregido
         last_name: last_name,
         email: email,
         birthday: birthday,
