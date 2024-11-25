@@ -164,6 +164,7 @@ function shuffleArray(array) {
     }
 }
 
+/*
 function initializeGameLogic() {
     const cards = document.querySelectorAll(".memory-card");
     let hasFlippedCard = false;
@@ -218,4 +219,107 @@ function initializeGameLogic() {
     }
 
     cards.forEach(card => card.addEventListener("click", flipCard));
+}*/
+
+function initializeGameLogic() {
+    startTimer(); // Inicia el temporizador
+
+    const cards = document.querySelectorAll(".memory-card");
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
+    let matches = 0; // Contador de pares encontrados
+
+    function flipCard() {
+        if (lockBoard) return;
+        if (this === firstCard) return;
+
+        this.classList.add("flipped");
+
+        if (!hasFlippedCard) {
+            hasFlippedCard = true;
+            firstCard = this;
+            return;
+        }
+
+        secondCard = this;
+        checkForMatch();
+    }
+
+    function checkForMatch() {
+        const isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+        isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+        firstCard.removeEventListener("click", flipCard);
+        secondCard.removeEventListener("click", flipCard);
+        matches++;
+
+        if (matches === cards.length / 2) {
+            stopTimer(); // Detén el temporizador cuando se encuentren todos los pares
+            alert(`¡Juego terminado! Tiempo: ${timer}s. Puntuación: ${score}`);
+        }
+
+        resetBoard();
+    }
+
+    function unflipCards() {
+        lockBoard = true;
+
+        setTimeout(() => {
+            firstCard.classList.remove("flipped");
+            secondCard.classList.remove("flipped");
+
+            resetBoard();
+        }, 1500);
+    }
+
+    function resetBoard() {
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+    }
+
+    cards.forEach(card => card.addEventListener("click", flipCard));
+}
+
+let timer = 0;
+let timerInterval;
+
+function startTimer() {
+    const timerDisplay = document.getElementById("timer");
+    timer = 0;
+    timerInterval = setInterval(() => {
+        timer++;
+        timerDisplay.textContent = `Tiempo: ${timer}s`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+
+let score = 0;
+let moves = 0; // Número de movimientos realizados
+
+function updateScore(isMatch) {
+    const scoreDisplay = document.getElementById("score");
+
+    if (isMatch) {
+        score += 100; // Incrementa puntos por un acierto
+    } else {
+        score -= 10; // Penalización por un intento fallido
+    }
+
+    moves++;
+    scoreDisplay.textContent = `Puntaje: ${score}`;
+}
+
+function checkForMatch() {
+    const isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+    updateScore(isMatch); // Actualiza el puntaje basado en si hubo coincidencia
+    isMatch ? disableCards() : unflipCards();
 }
