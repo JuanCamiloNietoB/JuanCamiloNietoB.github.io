@@ -1,4 +1,4 @@
-const API_URL = 'https://backend-api-mcp3.onrender.com/signup'; // Cambia a la URL de tu backend
+const API_URL = 'https://backend-api-mcp3.onrender.com'; // Cambia a la URL de tu backend
 
     // Cargar usuarios al cargar la página
     document.addEventListener('DOMContentLoaded', loadUsers);
@@ -6,8 +6,8 @@ const API_URL = 'https://backend-api-mcp3.onrender.com/signup'; // Cambia a la U
     // Función para cargar usuarios
     async function loadUsers() {
       try {
-        const response = await fetch(`${API_URL}/users`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        const response = await fetch(`${API_URL}/signup`, {
+          headers: {  }
         });
         const users = await response.json();
         const userTableBody = document.getElementById('userTableBody');
@@ -42,17 +42,17 @@ const API_URL = 'https://backend-api-mcp3.onrender.com/signup'; // Cambia a la U
       const password = document.getElementById('password').value;
 
       try {
-        const response = await fetch(`${API_URL}/users`, {
+        const response = await fetch(`${API_URL}/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            
           },
           body: JSON.stringify({
-            title: firstName,
-            description: lastName,
-            value: email,
-            images: birthday,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            birthday: birthday,
           })
         });
         if (response.ok) {
@@ -72,9 +72,9 @@ const API_URL = 'https://backend-api-mcp3.onrender.com/signup'; // Cambia a la U
       if (!confirm('¿Estás seguro de eliminar este usuario?')) return;
 
       try {
-        const response = await fetch(`${API_URL}/users/${id}`, {
+        const response = await fetch(`${API_URL}/signup/${id}`, {
           method: 'DELETE',
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: {  }
         });
         if (response.ok) {
           loadUsers(); // Recargar la tabla
