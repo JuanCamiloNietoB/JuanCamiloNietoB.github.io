@@ -1,5 +1,5 @@
 
-const LINK = "https://backend-api-mcp3.onrender.com/users";
+const LINK = "https://backend-api-mcp3.onrender.com/carts";
 
 document.addEventListener("DOMContentLoaded", function () {
     fetch(`${LINK}`, {

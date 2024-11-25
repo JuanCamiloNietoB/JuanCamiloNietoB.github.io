@@ -35,8 +35,8 @@ const API_URL = 'https://backend-api-mcp3.onrender.com'; // Cambia a la URL de t
     const addUserForm = document.getElementById('addUserForm');
     addUserForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const firstName = document.getElementById('firstName').value;
-      const lastName = document.getElementById('lastName').value;
+      const firts_name = document.getElementById('firts_name').value;
+      const last_name = document.getElementById('last_name').value;
       const email = document.getElementById('email').value;
       const birthday = document.getElementById('birthday').value;
       const password = document.getElementById('password').value;
@@ -49,8 +49,8 @@ const API_URL = 'https://backend-api-mcp3.onrender.com'; // Cambia a la URL de t
             
           },
           body: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
+            firts_name: firts_name,
+            last_name: last_name,
             email: email,
             birthday: birthday,
           })

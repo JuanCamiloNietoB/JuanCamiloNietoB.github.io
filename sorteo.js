@@ -1,4 +1,4 @@
-const LINK = "https://backend-api-mcp3.onrender.com/users";
+const LINK = "https://backend-api-mcp3.onrender.com/carts";
 // Función para seleccionar una carta aleatoria
 function obtenerCartaGacha(cartas) {
     const indiceAleatorio = Math.floor(Math.random() * cartas.length)

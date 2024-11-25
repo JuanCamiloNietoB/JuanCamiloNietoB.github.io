@@ -1,4 +1,4 @@
-const LINK = "https://backend-api-mcp3.onrender.com/users";
+const LINK = "https://backend-api-mcp3.onrender.com/carts";
     let isEditing = false; // Variable global para controlar si estamos en modo edición
     let editingId = null; // Variable para almacenar el id del post que estamos editando
 
