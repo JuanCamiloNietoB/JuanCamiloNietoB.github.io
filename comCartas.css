@@ -11,7 +11,7 @@ body {
 
 .card.flipped .card-back {
     transform: rotateY(0);
-}*/
+}
 
 .game-board {
     display: grid;
@@ -20,8 +20,8 @@ body {
 }
 
 .memory-card {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 120px;
     perspective: 1000px;
 }
 

@@ -42,6 +42,23 @@ function shuffleArray(array) {
 }
 
 
+let timer = 0;
+let timerInterval;
+
+function startTimer() {
+    const timerDisplay = document.getElementById("timer");
+    timer = 0;
+    timerInterval = setInterval(() => {
+        timer++;
+        timerDisplay.textContent = `Tiempo: ${timer}s`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+
 function initializeGameLogic() {
     startTimer(); // Inicia el temporizador
 
@@ -80,7 +97,7 @@ function initializeGameLogic() {
 
         if (matches === cards.length / 2) {
             stopTimer(); // Detén el temporizador cuando se encuentren todos los pares
-            alert(`¡Juego terminado! Tiempo: ${timer}s.`);
+            alert(`¡Juego terminado! Tiempo: ${timer}s. Puntuación: ${score}`);
         }
 
         resetBoard();
@@ -107,19 +124,4 @@ function initializeGameLogic() {
 
 
 
-let timer = 0;
-let timerInterval;
-
-function startTimer() {
-    const timerDisplay = document.getElementById("timer");
-    timer = 0;
-    timerInterval = setInterval(() => {
-        timer++;
-        timerDisplay.textContent = `Tiempo: ${timer}s`;
-    }, 1000);
-}
-
-function stopTimer() {
-    clearInterval(timerInterval);
-}
 
