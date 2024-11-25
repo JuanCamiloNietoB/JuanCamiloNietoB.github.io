@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     const LINK = "https://backend-api-mcp3.onrender.com/users";
     const cardContainer = document.getElementById("card-container");
     const attemptsCounter = document.getElementById("attempts-counter"); // Mostrar intentos
@@ -120,4 +120,102 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Iniciar el juego
     fetchCards();
+});*/
+
+const LINK = "https://backend-api-mcp3.onrender.com/users";
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetch(`${LINK}`, {
+        method: "GET",
+        headers: {},
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Duplica los datos para formar pares
+        const cardsData = [...data, ...data];
+        // Mezcla aleatoriamente las tarjetas
+        shuffleArray(cardsData);
+
+        // Genera el tablero
+        const gameBoard = document.getElementById("game-board");
+        cardsData.forEach((item, index) => {
+            const card = document.createElement("div");
+            card.classList.add("memory-card");
+            card.dataset.id = item.id; // Identificador único
+            card.innerHTML = `
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="${item.images}" alt="${item.title}">
+                </div>
+            `;
+            gameBoard.appendChild(card);
+        });
+
+        // Inicializa la lógica del juego
+        initializeGameLogic();
+    });
 });
+
+// Función para mezclar un array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function initializeGameLogic() {
+    const cards = document.querySelectorAll(".memory-card");
+    let hasFlippedCard = false;
+    let lockBoard = false;
+    let firstCard, secondCard;
+
+    function flipCard() {
+        if (lockBoard) return;
+        if (this === firstCard) return;
+
+        this.classList.add("flipped");
+
+        if (!hasFlippedCard) {
+            // Primer clic
+            hasFlippedCard = true;
+            firstCard = this;
+            return;
+        }
+
+        // Segundo clic
+        secondCard = this;
+        checkForMatch();
+    }
+
+    function checkForMatch() {
+        const isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+        isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+        firstCard.removeEventListener("click", flipCard);
+        secondCard.removeEventListener("click", flipCard);
+
+        resetBoard();
+    }
+
+    function unflipCards() {
+        lockBoard = true;
+
+        setTimeout(() => {
+            firstCard.classList.remove("flipped");
+            secondCard.classList.remove("flipped");
+
+            resetBoard();
+        }, 1500);
+    }
+
+    function resetBoard() {
+        [hasFlippedCard, lockBoard] = [false, false];
+        [firstCard, secondCard] = [null, null];
+    }
+
+    cards.forEach(card => card.addEventListener("click", flipCard));
+}
